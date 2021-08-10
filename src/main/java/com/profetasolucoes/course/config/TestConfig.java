@@ -11,6 +11,7 @@ import org.springframework.context.annotation.Profile;
 import com.profetasolucoes.course.entites.Category;
 import com.profetasolucoes.course.entites.Order;
 import com.profetasolucoes.course.entites.OrderItem;
+import com.profetasolucoes.course.entites.Payment;
 import com.profetasolucoes.course.entites.Product;
 import com.profetasolucoes.course.entites.User;
 import com.profetasolucoes.course.entites.enums.OrderStatus;
@@ -19,6 +20,8 @@ import com.profetasolucoes.course.repositories.OrderItemRepository;
 import com.profetasolucoes.course.repositories.OrderRepository;
 import com.profetasolucoes.course.repositories.ProductRepository;
 import com.profetasolucoes.course.repositories.UserRepository;
+
+import javassist.compiler.ast.NewExpr;
 
 @Configuration
 @Profile("test")
@@ -66,7 +69,10 @@ public class TestConfig implements CommandLineRunner {
 		OrderItem oi3 = new OrderItem(o2, p3, 2, p3.getPrice()); 
 		OrderItem oi4 = new OrderItem(o3, p5, 2, p5.getPrice()); 
 
+		Payment pay1  = new Payment(null, Instant.parse("2019-06-20T21:53:07Z"), o1);
+		o1.setPayment(pay1);
 		
+		orderRepository.save(o1);
 		
 
 		Category cat1 = new Category(null, "Eletronics");
@@ -87,7 +93,7 @@ public class TestConfig implements CommandLineRunner {
 		productRepository.saveAll(Arrays.asList(p1,p2,p3,p4,p5));
 		
 		orderItemRepository.saveAll(Arrays.asList(oi1, oi2, oi3, oi4));
-
+		
 	}
 
 }
